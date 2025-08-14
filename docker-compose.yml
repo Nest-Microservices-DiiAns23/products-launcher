@@ -10,8 +10,13 @@ services:
     build: ./client-gateway
     ports:
       - ${CLIENT_GATEWAY_PORT}:${CLIENT_GATEWAY_PORT}
-    volumes:
-      - ./client-gateway/src:/usr/src/app/src
+    develop:
+      watch:
+        - action: sync
+          path: ./client-gateway/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
     command: npm run dev
     environment:
       - PORT=${CLIENT_GATEWAY_PORT}
@@ -19,8 +24,13 @@ services:
   
   products-ms:
     build: ./products-ms
-    volumes:
-      - ./products-ms/src:/usr/src/app/src
+    develop:
+      watch:
+        - action: sync
+          path: ./products-ms/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
     command: npm run dev
     environment:
       - PORT=3000
@@ -46,8 +56,13 @@ services:
     depends_on:
       - orders-db
     build: ./orders-ms
-    volumes:
-      - ./orders-ms/src:/usr/src/app/src
+    develop:
+      watch:
+        - action: sync
+          path: ./orders-ms/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
     command: npm run dev
     environment:
       - PORT=3000
